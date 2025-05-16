@@ -1,2 +1,29 @@
 git remote add origin https://github.com/당신의아이디/lead-form-api.git
 git push -u origin main
+
+lead-form-api/
+├── api/
+│   └── submit.js ✅
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Only POST allowed" })
+  }
+
+  const { name, phone, ssn, agree, memo } = req.body
+
+  const scriptUrl = "https://script.google.com/macros/s/AKfycbzzTSsYXSXrw65Dw26inBDnYerZz3lLxMmE-EorEf360JNBpBjPOjWopYgExEMIe8Kz/exec"
+
+  try {
+    await fetch(scriptUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, phone, ssn, agree, memo }),
+    })
+
+    return res.status(200).json({ ok: true })
+  } catch (err) {
+    console.error("Error:", err)
+    return res.status(500).json({ error: "Server error" })
+  }
+}
