@@ -1,0 +1,2 @@
+git remote add origin https://github.com/당신의아이디/lead-form-api.git
+git push -u origin main
