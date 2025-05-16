@@ -1,9 +1,6 @@
-git remote add origin https://github.com/당신의아이디/lead-form-api.git
-git push -u origin main
+// Vercel 서버리스 함수: Framer → Google Apps Script 중계
 
-lead-form-api/
-├── api/
-│   └── submit.js ✅
+import fetch from "node-fetch"
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -15,7 +12,7 @@ export default async function handler(req, res) {
   const scriptUrl = "https://script.google.com/macros/s/AKfycbzzTSsYXSXrw65Dw26inBDnYerZz3lLxMmE-EorEf360JNBpBjPOjWopYgExEMIe8Kz/exec"
 
   try {
-    await fetch(scriptUrl, {
+    const response = await fetch(scriptUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, phone, ssn, agree, memo }),
@@ -27,3 +24,4 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "Server error" })
   }
 }
+
